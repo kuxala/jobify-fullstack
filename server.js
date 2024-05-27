@@ -21,8 +21,6 @@ import cloudinary from "cloudinary";
 
 
 
-
-
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
   api_key: process.env.CLOUD_API_KEY,
@@ -30,7 +28,7 @@ cloudinary.config({
 });
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-app.use(express.static(path.resolve(__dirname, "./public")));
+app.use(express.static(path.resolve(__dirname, "./client/dist")));
 
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
@@ -43,7 +41,7 @@ app.use("/api/v1/users", authenticateUser, userRouter);
 app.use("/api/v1/auth", authRouter)
 
 app.get("*", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "./public/index.html"));
+  res.sendFile(path.resolve(__dirname, "./client/dist/index.html"));
 })
 try {
   await mongoose.connect(process.env.MONGO_URL);
